@@ -23,6 +23,7 @@ module.exports = class RockPaperScissorsTournamentSimulator {
 
         const opponentMap = {'A' : 'rock', 'B': 'paper', 'C': 'scissors'};
         const myMap = {'X' : 'rock', 'Y': 'paper', 'Z': 'scissors'};
+        const desiredOutcomeMap = {'X' : 'lose', 'Y': 'draw', 'Z': 'win'};
 
         this.rawData = stringArray;
         this.instructionArray = [];
@@ -30,7 +31,8 @@ module.exports = class RockPaperScissorsTournamentSimulator {
             const line = stringArray[i];
             const instruction = {
                 opponent: opponentMap[line.charAt(0)],
-                mine: myMap[line.charAt(2)]
+                mine: myMap[line.charAt(2)],
+                desiredOutcome: desiredOutcomeMap[line.charAt(2)]
             };
             this.instructionArray.push(instruction);
         }
@@ -65,11 +67,50 @@ module.exports = class RockPaperScissorsTournamentSimulator {
         return score;
     }
 
+    getScoreForMatchupPart2(instruction) {
+        const newInstruction = {
+            opponent: instruction.opponent
+        };
+
+        if (instruction.desiredOutcome === 'draw') {
+            newInstruction.mine = instruction.opponent;
+        } else if (instruction.opponent === 'rock') {
+            if (instruction.desiredOutcome === 'win') {
+                newInstruction.mine = 'paper';
+            } else {
+                newInstruction.mine = 'scissors';
+            }
+        } else if (instruction.opponent === 'paper') {
+            if (instruction.desiredOutcome === 'win') {
+                newInstruction.mine = 'scissors';
+            } else {
+                newInstruction.mine = 'rock';
+            }
+        } else if (instruction.opponent === 'scissors') {
+            if (instruction.desiredOutcome === 'win') {
+                newInstruction.mine = 'rock';
+            } else {
+                newInstruction.mine = 'paper';
+            }
+        }
+        return this.getScoreForMatchup(newInstruction);
+    }
+
+
     getTotalScore() {
         var totalScore = 0;
         for (var i in this.instructionArray) {
             const instruction = this.instructionArray[i];
             totalScore += this.getScoreForMatchup(instruction);
+        }
+        return totalScore;
+    }
+
+    getTotalScorePart2() {
+        var totalScore = 0;
+        for (var i in this.instructionArray) {
+            const instruction = this.instructionArray[i];
+            totalScore += this.getScoreForMatchupPart2(instruction);
         }
         return totalScore;
     }
