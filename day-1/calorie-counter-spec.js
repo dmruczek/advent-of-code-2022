@@ -21,4 +21,13 @@ describe('CalorieCounter', function () {
 
     });
 
+    describe('getSumOfTopThreeCalorieCounts', function() {
+
+        it('should return the sum of the top three highest calorie counts', function () {
+            const calorieCounter = new CalorieCounter(true);
+            expect(calorieCounter.getSumOfTopThreeCalorieCounts()).toEqual(45000);
+        });
+
+    });
+
 });

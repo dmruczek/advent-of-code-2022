@@ -41,4 +41,9 @@ module.exports = class CalorieCounter {
         return this.calorieArray.sort(function compareFn(a, b) {return b - a;})[0];
     }
 
+    getSumOfTopThreeCalorieCounts() {
+        this.calorieArray.sort(function compareFn(a, b) {return b - a;});
+        return this.calorieArray[0] + this.calorieArray[1] + this.calorieArray[2];
+    }
+
 };
