@@ -28,17 +28,16 @@ module.exports = class RucksackItemRearranger {
         for (var i in stringArray) {
             const line = stringArray[i];
 
-            this.rucksackArray.push([
-                line.substring(0,line.length/2),
-                line.substring(line.length/2)
-            ]);
+            this.rucksackArray.push(line);
         }
     }
 
     findCommonItem(rucksack) {
-        for (var i = 0; i < rucksack[0].length; i++) {
-            const item = rucksack[0][i];
-            if (rucksack[1].includes(item)) {
+        var compartmentOne = rucksack.substring(0,rucksack.length/2),
+        compartmentTwo = rucksack.substring(rucksack.length/2);
+        for (var i = 0; i < compartmentOne.length; i++) {
+            const item = compartmentOne[i];
+            if (compartmentTwo.includes(item)) {
                 return item;
             }
         }
@@ -60,6 +59,24 @@ module.exports = class RucksackItemRearranger {
             score += this.getItemPriority(this.findCommonItem(rucksack));
         }
         return score;
+    }
+
+    findGroupBadge(groupRucksacks) {
+        for (var i = 0; i < groupRucksacks[0].length; i++) {
+            var item = groupRucksacks[0].charAt(i);
+            if (groupRucksacks[1].includes(item) && groupRucksacks[2].includes(item)) {
+                return item;
+            }
+        }
+    }
+
+    calculatePriorityOfAllGroupBadges() {
+        var totalPriority = 0;
+        for (var i = 0; i < this.rucksackArray.length; i+= 3) {
+            var badge = this.findGroupBadge(this.rucksackArray.slice(i, i+3));
+            totalPriority += this.getItemPriority(badge);
+        }
+        return totalPriority;
     }
 
 };

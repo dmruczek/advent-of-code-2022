@@ -7,12 +7,12 @@ describe('RucksackItemRearranger', function () {
         it('should properly load the instruction array', function () {
             const rucksackItemRearranger = new RucksackItemRearranger(true);
             const expectedRucksackArray = [
-                ['vJrwpWtwJgWr','hcsFMMfFFhFp'],
-                ['jqHRNqRjqzjGDLGL','rsFMfFZSrLrFZsSL'],
-                ['PmmdzqPrV','vPwwTWBwg'],
-                [ 'wMqvLMZHhHMvwLH', 'jbvcjnnSBnvTQFn' ],
-                [ 'ttgJtRGJ', 'QctTZtZT' ],
-                [ 'CrZsJsPPZsGz', 'wwsLwLmpwMDw' ]
+                'vJrwpWtwJgWrhcsFMMfFFhFp',
+                'jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL',
+                'PmmdzqPrVvPwwTWBwg',
+                 'wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn' ,
+                 'ttgJtRGJQctTZtZT' ,
+                 'CrZsJsPPZsGzwwsLwLmpwMDw'
             ];
             expect(rucksackItemRearranger.rucksackArray).toEqual(expectedRucksackArray);
         });
@@ -23,8 +23,8 @@ describe('RucksackItemRearranger', function () {
 
         it('should find the common item in both compartments of the rucksack.', function () {
             const rucksackItemRearranger = new RucksackItemRearranger(true);
-            expect(rucksackItemRearranger.findCommonItem(['vJrwpWtwJgWr','hcsFMMfFFhFp'])).toEqual('p');
-            expect(rucksackItemRearranger.findCommonItem([ 'wMqvLMZHhHMvwLH', 'jbvcjnnSBnvTQFn' ])).toEqual('v');
+            expect(rucksackItemRearranger.findCommonItem('vJrwpWtwJgWrhcsFMMfFFhFp')).toEqual('p');
+            expect(rucksackItemRearranger.findCommonItem( 'wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn')).toEqual('v');
         });
 
     });
@@ -50,5 +50,26 @@ describe('RucksackItemRearranger', function () {
         });
 
     });
+
+    describe('findGroupBadge', function() {
+
+        it('should return the badge that is in common for each rucksack in the list of rucksacks passed in', function () {
+            const rucksackItemRearranger = new RucksackItemRearranger(true);
+            expect(rucksackItemRearranger.findGroupBadge(['vJrwpWtwJgWrhcsFMMfFFhFp','jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL','PmmdzqPrVvPwwTWBwg'])).toBe('r');
+            expect(rucksackItemRearranger.findGroupBadge(['wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn','ttgJtRGJQctTZtZT','CrZsJsPPZsGzwwsLwLmpwMDw'])).toBe('Z');
+        });
+
+    });
+
+    describe('calculatePriorityOfAllGroupBadges', function() {
+
+        it('should find all group badges and then calculate the total priority', function () {
+            const rucksackItemRearranger = new RucksackItemRearranger(true);
+            expect(rucksackItemRearranger.calculatePriorityOfAllGroupBadges()).toBe(70);
+        });
+
+    });
+    
+
 
 });
