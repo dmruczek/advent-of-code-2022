@@ -24,6 +24,21 @@ describe('Directory', function () {
         });
     });
 
+
+    describe('computeScenicScore', function() {
+        it('should compute the Scenic Score for the given location.', function () {
+            const treeAnalyzer = new TreeAnalyzer(true);
+            expect(treeAnalyzer.computeScenicScore(2,1)).toBe(4);
+            expect(treeAnalyzer.computeScenicScore(2,3)).toBe(8);
+        });
+    });
+
+    describe('findBestScenicScore', function() {
+        it('should find the best scenic score of all available positions', function () {
+            const treeAnalyzer = new TreeAnalyzer(true);
+            expect(treeAnalyzer.findBestScenicScore()).toBe(8);
+        });
+    });
     
 
 });

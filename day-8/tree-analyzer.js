@@ -102,4 +102,78 @@ module.exports = class TreeAnalyzer {
         return totalTreesVisible;
     }
 
+    findBestScenicScore() {
+
+        var bestScenicScore = 0;
+        for (var x = 1; x < this.treeMap[0].length; x++) {
+            for (var y = 1; y < this.treeMap.length; y++) {
+                var score = this.computeScenicScore(x,y);
+                if (score > bestScenicScore) {
+                    bestScenicScore = score;
+                }
+            }
+        }
+        return bestScenicScore;
+    }
+
+    computeScenicScore(x,y) {
+        const currentTreeHeight = this.treeMap[y][x];
+        if (x === 0 || y === 0 || x === this.treeMap.length-1 || y === this.treeMap[0].length-1) {
+            return 0;
+        }
+
+        var upTrees = 0, downTrees = 0, leftTrees = 0, rightTrees = 0;
+
+        var newX, newY;
+        var visibleTreeHeight = -1;
+        // Right Trees:
+        for (newX = x+1; newX < this.treeMap[0].length; newX++) {
+            const thisTree = this.treeMap[y][newX];
+            if (thisTree > visibleTreeHeight) {
+                rightTrees++;
+                if (thisTree >= currentTreeHeight) {
+                    break;
+                }
+            }
+        }
+
+        visibleTreeHeight = -1;
+        // Left Trees:
+        for (newX = x-1; newX >= 0; newX--) {
+            const thisTree = this.treeMap[y][newX];
+            if (thisTree > visibleTreeHeight) {
+                leftTrees++;
+                if (thisTree >= currentTreeHeight) {
+                    break;
+                }
+            }
+        }
+
+        visibleTreeHeight = -1;
+        // Up Trees:
+        for (newY = y-1; newY >= 0; newY--) {
+            const thisTree = this.treeMap[newY][x];
+            if (thisTree > visibleTreeHeight) {
+                upTrees++;
+                if (thisTree >= currentTreeHeight) {
+                    break;
+                }
+            }
+        }
+
+        visibleTreeHeight = -1;
+        // Down Trees:
+        for (newY = y+1; newY < this.treeMap.length; newY++) {
+            const thisTree = this.treeMap[newY][x];
+            if (thisTree > visibleTreeHeight) {
+                downTrees++;
+                if (thisTree >= currentTreeHeight) {
+                    break;
+                }
+            }
+        }
+
+        return upTrees * downTrees * leftTrees * rightTrees;
+    }
+
 };
