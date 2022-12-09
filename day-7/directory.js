@@ -87,5 +87,17 @@ module.exports = class Directory {
         return smallDirs;
     }
 
+    getAllDirectoriesWithSize() {
+        var dirs = [];
+        dirs.push({name: this.name, size: this.getSize()});
+        for (var i = 0; i < this.children.length; i++) {
+            const child =this.children[i];
+            if (child.isDirectory()) {
+                Array.prototype.push.apply(dirs, child.getAllDirectoriesWithSize());
+            }
+        }
+        return dirs;
+    }
+
 
 }; 

@@ -91,4 +91,26 @@ module.exports = class DirectoryTraverser {
         return total;
     }
 
+    getSmallestDirectoryToDeleteAndMakeRoom() {
+        const totalSpaceNeeded = 30000000;
+        const diskSize = 70000000;
+        const spaceCurrentlyInUse = this.root.getSize();
+        const freeSpace = diskSize - spaceCurrentlyInUse;
+        const minimumToDelete = totalSpaceNeeded - freeSpace;
+
+        const allDirs = this.root.getAllDirectoriesWithSize();
+        var smallestDirLargeEnough;
+        for (var i = 0; i < allDirs.length; i++) {
+            const thisDir = allDirs[i];
+            if (thisDir.size >= minimumToDelete) {
+                if (smallestDirLargeEnough === undefined) {
+                    smallestDirLargeEnough = thisDir;
+                } else if (thisDir.size < smallestDirLargeEnough.size) {
+                    smallestDirLargeEnough = thisDir;
+                }
+            }
+        }
+        return smallestDirLargeEnough;
+    }
+
 };

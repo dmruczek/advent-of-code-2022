@@ -40,5 +40,12 @@ describe('DirectoryTraverser', function () {
         });
     });
 
-    
+    describe('getSmallestDirectoryToDeleteAndMakeRoom', function() {
+        it('should find the smallest directory that can be deleted to free up enough space.', function () {
+            const directoryTraverser = new DirectoryTraverser(true);
+            directoryTraverser.buildMapOfFilesystem();
+            expect(directoryTraverser.getSmallestDirectoryToDeleteAndMakeRoom()).toEqual({ name: 'd', size: 24933642 });
+        });
+    });
+
 });
