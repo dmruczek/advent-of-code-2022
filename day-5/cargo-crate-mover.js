@@ -73,6 +73,13 @@ module.exports = class CargoCrateMover {
         }
     }
 
+    processInstructionWithFancyCrane(instruction) {
+        const originStack = this.cargoStacks[instruction.origin-1];
+        const destinationStack = this.cargoStacks[instruction.destination-1];
+        var cargoItems = originStack.splice(originStack.length-instruction.numberToMove, instruction.numberToMove);
+        Array.prototype.push.apply(destinationStack, cargoItems);
+    }
+
     getTopCrateForEachStack() {
         var topCrates = '';
         for (var i = 0; i < this.cargoStacks.length; i++) {
@@ -84,6 +91,13 @@ module.exports = class CargoCrateMover {
     processAllInstructions() {
         for (var i = 0; i < this.instructionList.length; i++) {
             this.processInstruction(this.instructionList[i]);
+        }
+        return this.getTopCrateForEachStack();
+    }
+
+    processAllInstructionsWithFancyCrane() {
+        for (var i = 0; i < this.instructionList.length; i++) {
+            this.processInstructionWithFancyCrane(this.instructionList[i]);
         }
         return this.getTopCrateForEachStack();
     }
