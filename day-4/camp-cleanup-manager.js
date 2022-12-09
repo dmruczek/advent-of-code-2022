@@ -44,11 +44,29 @@ module.exports = class CampCleanupManager {
         (cleanupPair[1].start >= cleanupPair[0].start && cleanupPair[1].end <= cleanupPair[0].end);
     }
 
+    checkCleanupPairForAnyOverlap(cleanupPair) {
+        return (cleanupPair[0].start >= cleanupPair[1].start && cleanupPair[0].start <= cleanupPair[1].end) ||
+        (cleanupPair[0].end >= cleanupPair[1].start && cleanupPair[0].end <= cleanupPair[1].end) ||
+        (cleanupPair[1].start >= cleanupPair[0].start && cleanupPair[1].start <= cleanupPair[0].end) ||
+        (cleanupPair[1].end >= cleanupPair[0].start && cleanupPair[1].end <= cleanupPair[0].end);
+    }
+
     calculcateNumberOfPairsWithTotalOverlap() {
         var total = 0;
         for (var i in this.cleanupPairs) {
             const cleanupPair = this.cleanupPairs[i];
             if (this.checkCleanupPairForTotalOverlap(cleanupPair)) {
+                total ++;
+            }
+        }
+        return total;
+    }
+
+    calculcateNumberOfPairsWithAnyOverlap() {
+        var total = 0;
+        for (var i in this.cleanupPairs) {
+            const cleanupPair = this.cleanupPairs[i];
+            if (this.checkCleanupPairForAnyOverlap(cleanupPair)) {
                 total ++;
             }
         }
