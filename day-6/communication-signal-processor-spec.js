@@ -19,6 +19,19 @@ describe('CampCleanupManager', function () {
             expect(communicationSignalProcessor.findStartOfPacketMarker('zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw')).toBe(11);
         });
     });
+ 
+    describe('findStartOfMessageMarker', function() {
+        it('should find the first index where 14 unique characters end', function () {
+            const communicationSignalProcessor = new CommunicationSignalProcessor(true);
+            expect(communicationSignalProcessor.findStartOfMessageMarker('mjqjpqmgbljsphdztnvjfqwrcgsmlb')).toBe(19);
+            expect(communicationSignalProcessor.findStartOfMessageMarker('bvwbjplbgvbhsrlpgdmjqwftvncz')).toBe(23);
+            expect(communicationSignalProcessor.findStartOfMessageMarker('nppdvjthqldpwncqszvftbrmjlhg')).toBe(23);
+            expect(communicationSignalProcessor.findStartOfMessageMarker('nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg')).toBe(29);
+            expect(communicationSignalProcessor.findStartOfMessageMarker('zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw')).toBe(26);
+        });
+    });
+ 
+    
     
  
 });

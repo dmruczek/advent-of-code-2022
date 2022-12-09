@@ -44,4 +44,12 @@ module.exports = class CommunicationSignalProcessor {
         }
     }
 
+    findStartOfMessageMarker(communicationSignal) {
+        for (var i = 0; i < communicationSignal.length; i++) {
+            if (this.allCharactersDifferent(communicationSignal.substr(i, 14))) {
+                return i + 14;
+            }
+        }
+    }
+
 };
